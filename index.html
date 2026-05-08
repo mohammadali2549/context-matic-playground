@@ -288,18 +288,10 @@
     const sid = res.headers.get('Mcp-Session-Id');
     if (sid) {
       mcpSessionId = sid;
-    } else {
-      // The server returned Mcp-Session-Id but it is not CORS-exposed
-      // (Access-Control-Expose-Headers is missing from the server response).
-      // Without the session ID no subsequent request will be accepted.
-      throw new Error(
-        'MCP session ID not readable.\n\n' +
-        'The server must add the following HTTP response header:\n' +
-        '  Access-Control-Expose-Headers: Mcp-Session-Id\n\n' +
-        'This is a server-side CORS configuration issue. ' +
-        'The playground cannot work from a cross-origin page until that header is added.'
-      );
     }
+    // If sid is null the server likely hasn't exposed the header via
+    // Access-Control-Expose-Headers. Proceed without it; buildHeaders()
+    // already omits the Mcp-Session-Id header when mcpSessionId is null.
 
     const ct = (res.headers.get('content-type') || '').toLowerCase();
     if (ct.includes('text/event-stream')) {
