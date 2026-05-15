@@ -1,0 +1,7 @@
+{
+  "name": "mcp-client",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node mcp-client.js"
+  }
+}
