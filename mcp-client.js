@@ -23,8 +23,8 @@ const url   = require("url");
 // ─── CLI ─────────────────────────────────────────────────────────────────────
 const args = process.argv.slice(2);
 const get  = (flag) => { const i = args.indexOf(flag); return i !== -1 ? args[i + 1] : null; };
-const TARGET_URL = get("--target") || "https://chatbotapi.apimatic.io/mcp/plugins";
-const PORT       = parseInt(get("--port") || "8787", 10);
+const TARGET_URL = get("--target") || process.env.TARGET_URL || "https://chatbotapi.apimatic.io/mcp/plugins";
+const PORT       = parseInt(get("--port") || process.env.PORT || "8787", 10);
 
 console.log(`\n  MCP Client`);
 console.log(`  ──────────────────────────────`);
@@ -753,7 +753,7 @@ const server = http.createServer((req, res) => {
   res.end("Not found");
 });
 
-server.listen(PORT, "127.0.0.1", () => {
+server.listen(PORT, "0.0.0.0", () => {
   console.log(`  Ready → http://localhost:${PORT}\n`);
 });
 
